@@ -6,6 +6,8 @@
   --shadow: rgba(0, 0, 0, 0.15);
   --record: #2a6e3a;
   --record-active: #d23a2b;
+  --del: #b14b3a;
+  --ins: #2a6e3a;
 }
 
 * { box-sizing: border-box; }
@@ -18,22 +20,9 @@ body {
   min-height: 100vh;
 }
 
-header {
-  text-align: center;
-  padding: 2rem 1rem 1rem;
-}
-
-header h1 {
-  font-family: "Georgia", "Times New Roman", serif;
-  font-size: 2.5rem;
-  margin: 0;
-  letter-spacing: 0.05em;
-}
-
-.subtitle {
-  color: var(--muted);
-  margin-top: 0.25rem;
-}
+header { text-align: center; padding: 2rem 1rem 1rem; }
+header h1 { font-family: "Georgia", "Times New Roman", serif; font-size: 2.5rem; margin: 0; letter-spacing: 0.05em; }
+.subtitle { color: var(--muted); margin-top: 0.25rem; }
 
 main {
   display: grid;
@@ -59,9 +48,7 @@ main {
   min-height: 1.5rem;
 }
 
-.editor label {
-  font-weight: 600;
-}
+.editor label { font-weight: 600; }
 
 .textarea-wrap {
   position: relative;
@@ -104,19 +91,10 @@ textarea {
   font-size: 0.9rem;
 }
 
-.viz-label::before {
-  content: "● ";
-  animation: blink 1s steps(2) infinite;
-}
-
+.viz-label::before { content: "● "; animation: blink 1s steps(2) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
-.viz .bars {
-  display: inline-flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 22px;
-}
+.viz .bars { display: inline-flex; align-items: flex-end; gap: 3px; height: 22px; }
 
 .viz .bars span {
   width: 4px;
@@ -178,17 +156,8 @@ button.record:hover { background: #225a30; }
 button.record.recording { background: var(--record-active); }
 button.record.recording:hover { background: #a82e22; }
 
-button.record .dot {
-  width: 0.6rem;
-  height: 0.6rem;
-  border-radius: 50%;
-  background: #fff;
-  display: inline-block;
-}
-
-button.record.recording .dot {
-  animation: pulse 1s infinite ease-in-out;
-}
+button.record .dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: #fff; display: inline-block; }
+button.record.recording .dot { animation: pulse 1s infinite ease-in-out; }
 
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
@@ -211,11 +180,9 @@ label.auto {
   min-height: 1.2em;
 }
 
-.status .interim {
-  font-style: italic;
-  color: #5a6e8a;
-}
+.status .interim { font-style: italic; color: #5a6e8a; }
 
+.settings,
 .changes {
   margin-top: 1rem;
   background: #fdfaf2;
@@ -224,24 +191,92 @@ label.auto {
   padding: 0.6rem 0.9rem;
 }
 
+.settings summary,
 .changes summary {
   cursor: pointer;
   font-weight: 600;
 }
 
-.changes ol {
-  margin: 0.75rem 0 0;
-  padding-left: 1.25rem;
+.settings-body {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.8rem;
 }
 
-.changes li { margin-bottom: 0.4rem; }
-.changes del { color: #b14b3a; text-decoration: line-through; }
-.changes ins { color: #2a6e3a; text-decoration: none; font-weight: 600; }
-
-.book {
+.settings-body .field {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
 }
+
+.settings-body .field small { color: var(--muted); font-weight: normal; }
+
+.settings-body select,
+.settings-body input[type="password"] {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #c8bfa6;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 1rem;
+  color: var(--ink);
+  font-family: inherit;
+}
+
+.settings-body .hint {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.settings-body .hint a { color: var(--accent); }
+
+#change-body { margin-top: 0.75rem; }
+
+.diff {
+  font-family: "Georgia", serif;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background: #fff;
+  border: 1px solid #e6dfc6;
+  border-radius: 4px;
+  padding: 0.7rem 0.9rem;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.diff del {
+  color: var(--del);
+  text-decoration: line-through;
+  background: rgba(177, 75, 58, 0.08);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.diff ins {
+  color: var(--ins);
+  text-decoration: none;
+  font-weight: 600;
+  background: rgba(42, 110, 58, 0.08);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.diff-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.lt-list { margin: 0; padding-left: 1.25rem; }
+.lt-list li { margin-bottom: 0.4rem; }
+.lt-list del { color: var(--del); text-decoration: line-through; }
+.lt-list ins { color: var(--ins); text-decoration: none; font-weight: 600; }
+
+.book { display: flex; justify-content: center; }
 
 .page {
   background: var(--paper);

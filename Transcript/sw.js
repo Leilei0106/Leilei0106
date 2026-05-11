@@ -1,4 +1,4 @@
-const CACHE = 'transcript-v2';
+const CACHE = 'transcript-v3';
 const APP_SHELL = [
   './',
   './index.html',
@@ -30,10 +30,9 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
 
-  // LanguageTool API: always network, never cache.
-  if (url.hostname === 'api.languagetool.org') return;
+  // Never cache API traffic.
+  if (url.hostname === 'api.languagetool.org' || url.hostname === 'api.anthropic.com') return;
 
-  // Same-origin: stale-while-revalidate.
   if (url.origin === self.location.origin) {
     event.respondWith(
       caches.open(CACHE).then(async (cache) => {
