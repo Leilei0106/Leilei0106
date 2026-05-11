@@ -1,0 +1,30 @@
+{
+  "name": "Transcript – Diktieren & Korrigieren",
+  "short_name": "Transcript",
+  "description": "Diktiere deutschen Text, korrigiere Rechtschreibung und Satzstellung automatisch und lies das Ergebnis im Buchdesign.",
+  "start_url": "./",
+  "scope": "./",
+  "id": "/leilei0106/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#ece5d3",
+  "theme_color": "#8a6d3b",
+  "lang": "de",
+  "dir": "ltr",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "maskable"
+    }
+  ]
+}

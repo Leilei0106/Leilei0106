@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Transcript">
+  <rect width="512" height="512" fill="#f6f1e3"/>
+  <text x="256" y="345" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="300" font-weight="700" fill="#8a6d3b">T</text>
+  <circle cx="370" cy="160" r="24" fill="#d23a2b"/>
+</svg>

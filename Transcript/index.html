@@ -2,8 +2,20 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Transcript – Diktieren &amp; Korrigieren</title>
+  <meta name="description" content="Diktiere deutschen Text, korrigiere automatisch und lies ihn im Buchdesign.">
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#8a6d3b">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Transcript">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="apple-touch-icon" href="icon.svg">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -30,6 +42,7 @@
         </button>
         <button id="correct" type="button">Korrigieren</button>
         <button id="clear" type="button" class="ghost">Leeren</button>
+        <button id="install" type="button" class="ghost" hidden>App installieren</button>
         <label class="auto">
           <input type="checkbox" id="auto-correct" checked>
           Nach Aufnahme automatisch korrigieren

@@ -3,6 +3,7 @@ const correctBtn = document.getElementById('correct');
 const clearBtn = document.getElementById('clear');
 const recordBtn = document.getElementById('record');
 const recordLabel = recordBtn.querySelector('.label');
+const installBtn = document.getElementById('install');
 const autoCorrect = document.getElementById('auto-correct');
 const statusEl = document.getElementById('status');
 const page = document.getElementById('page');
@@ -18,6 +19,7 @@ const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = null;
 let recording = false;
 let baseText = '';
+let deferredInstall = null;
 
 function escapeHtml(s) {
   return s.replace(/[&<>"']/g, (c) => (
@@ -227,3 +229,30 @@ if (!Recognition) {
 }
 
 renderBook('');
+
+// PWA: install prompt
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  deferredInstall = event;
+  installBtn.hidden = false;
+});
+
+installBtn.addEventListener('click', async () => {
+  if (!deferredInstall) return;
+  deferredInstall.prompt();
+  await deferredInstall.userChoice;
+  deferredInstall = null;
+  installBtn.hidden = true;
+});
+
+window.addEventListener('appinstalled', () => {
+  installBtn.hidden = true;
+  statusEl.textContent = 'App installiert.';
+});
+
+// PWA: register service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => { /* ignore */ });
+  });
+}
