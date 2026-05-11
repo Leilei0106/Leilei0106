@@ -1,4 +1,4 @@
-const CACHE = 'transcript-v3';
+const CACHE = 'transcript-v4';
 const APP_SHELL = [
   './',
   './index.html',
@@ -30,7 +30,6 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
 
-  // Never cache API traffic.
   if (url.hostname === 'api.languagetool.org' || url.hostname === 'api.anthropic.com') return;
 
   if (url.origin === self.location.origin) {

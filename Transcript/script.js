@@ -16,6 +16,11 @@ const taWrap = document.getElementById('ta-wrap');
 const engineEl = document.getElementById('engine');
 const keyEl = document.getElementById('api-key');
 const modelEl = document.getElementById('model');
+const expCopy = document.getElementById('exp-copy');
+const expTxt = document.getElementById('exp-txt');
+const expMd = document.getElementById('exp-md');
+const expHtml = document.getElementById('exp-html');
+const expPdf = document.getElementById('exp-pdf');
 
 const LT_API = 'https://api.languagetool.org/v2/check';
 const CLAUDE_API = 'https://api.anthropic.com/v1/messages';
@@ -105,7 +110,6 @@ function wordDiff(a, b) {
   }
   while (i > 0) { out.unshift({ type: 'del', text: ta[i - 1] }); i--; }
   while (j > 0) { out.unshift({ type: 'ins', text: tb[j - 1] }); j--; }
-  // Merge adjacent same-type tokens
   const merged = [];
   for (const part of out) {
     if (merged.length && merged[merged.length - 1].type === part.type) {
@@ -323,6 +327,139 @@ async function runCorrection() {
     correctBtn.disabled = false;
   }
 }
+
+// ---------- Export ----------
+
+function currentText() {
+  return input.value.trim();
+}
+
+function dateStamp() {
+  const d = new Date();
+  const p = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}`;
+}
+
+function download(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+function buildBookHtml(text) {
+  const paragraphs = text.split(/\n\s*\n+/)
+    .map((p) => p.replace(/\n/g, ' ').trim())
+    .filter(Boolean);
+  const body = paragraphs.map((p) => `    <p>${escapeHtml(p)}</p>`).join('\n');
+  return `<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Transcript</title>
+  <style>
+    @page { margin: 1.8cm; }
+    body { background: #ece5d3; margin: 0; padding: 2rem; font-family: system-ui, -apple-system, sans-serif; }
+    .page {
+      background: #f6f1e3;
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 4rem 3rem;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      text-align: justify;
+      hyphens: auto;
+      color: #2b2722;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.15);
+      border-radius: 2px;
+    }
+    .page p { margin: 0 0 1rem; }
+    .page p:first-of-type::first-letter {
+      font-size: 3.4rem;
+      float: left;
+      line-height: 0.9;
+      padding: 0.3rem 0.5rem 0 0;
+      font-weight: 700;
+      color: #8a6d3b;
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .page { box-shadow: none; max-width: none; padding: 0; background: #fff; }
+      .page p:first-of-type::first-letter { color: #444; }
+    }
+  </style>
+</head>
+<body>
+  <article class="page">
+${body}
+  </article>
+</body>
+</html>
+`;
+}
+
+async function exportCopy() {
+  const text = currentText();
+  if (!text) { statusEl.textContent = 'Kein Text zum Exportieren.'; return; }
+  try {
+    await navigator.clipboard.writeText(text);
+    statusEl.textContent = 'In die Zwischenablage kopiert.';
+  } catch (e) {
+    // Fallback for older / restricted browsers
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      statusEl.textContent = 'In die Zwischenablage kopiert.';
+    } catch (_) {
+      statusEl.textContent = `Kopieren fehlgeschlagen: ${e.message}`;
+    }
+    document.body.removeChild(ta);
+  }
+}
+
+function exportTxt() {
+  const text = currentText();
+  if (!text) { statusEl.textContent = 'Kein Text zum Exportieren.'; return; }
+  download(new Blob([text + '\n'], { type: 'text/plain;charset=utf-8' }), `transcript-${dateStamp()}.txt`);
+  statusEl.textContent = 'TXT-Datei heruntergeladen.';
+}
+
+function exportMd() {
+  const text = currentText();
+  if (!text) { statusEl.textContent = 'Kein Text zum Exportieren.'; return; }
+  const md = `# Transcript\n\n*Erstellt am ${new Date().toLocaleString('de-DE')}*\n\n${text}\n`;
+  download(new Blob([md], { type: 'text/markdown;charset=utf-8' }), `transcript-${dateStamp()}.md`);
+  statusEl.textContent = 'Markdown-Datei heruntergeladen.';
+}
+
+function exportHtml() {
+  const text = currentText();
+  if (!text) { statusEl.textContent = 'Kein Text zum Exportieren.'; return; }
+  download(new Blob([buildBookHtml(text)], { type: 'text/html;charset=utf-8' }), `transcript-${dateStamp()}.html`);
+  statusEl.textContent = 'HTML-Datei heruntergeladen.';
+}
+
+function exportPdf() {
+  if (!currentText()) { statusEl.textContent = 'Kein Text zum Exportieren.'; return; }
+  statusEl.textContent = 'Druckdialog geöffnet — dort „Als PDF speichern“ wählen.';
+  window.print();
+}
+
+expCopy.addEventListener('click', exportCopy);
+expTxt.addEventListener('click', exportTxt);
+expMd.addEventListener('click', exportMd);
+expHtml.addEventListener('click', exportHtml);
+expPdf.addEventListener('click', exportPdf);
 
 // ---------- Speech Recognition ----------
 

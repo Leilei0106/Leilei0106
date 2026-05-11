@@ -74,6 +74,17 @@
           <p class="hint">Der Schlüssel wird nur in deinem Browser gespeichert (localStorage) und direkt an Anthropic gesendet. Schlüssel erstellen: <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>.</p>
         </div>
       </details>
+      <details class="export" id="export">
+        <summary>Text exportieren</summary>
+        <div class="export-body">
+          <button id="exp-copy" type="button" class="ghost">In Zwischenablage kopieren</button>
+          <button id="exp-txt" type="button" class="ghost">Als .txt herunterladen</button>
+          <button id="exp-md" type="button" class="ghost">Als .md (Markdown)</button>
+          <button id="exp-html" type="button" class="ghost">Als HTML (Buchseite)</button>
+          <button id="exp-pdf" type="button" class="ghost">Als PDF drucken / speichern</button>
+          <p class="hint">PDF öffnet den Druckdialog des Browsers — dort „Als PDF speichern“ wählen. Nur die Buchseite wird gedruckt.</p>
+        </div>
+      </details>
       <details class="changes" id="changes" hidden>
         <summary id="changes-summary">Vorgenommene Korrekturen (<span id="change-count">0</span>)</summary>
         <div id="change-body"></div>

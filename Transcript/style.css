@@ -183,6 +183,7 @@ label.auto {
 .status .interim { font-style: italic; color: #5a6e8a; }
 
 .settings,
+.export,
 .changes {
   margin-top: 1rem;
   background: #fdfaf2;
@@ -192,6 +193,7 @@ label.auto {
 }
 
 .settings summary,
+.export summary,
 .changes summary {
   cursor: pointer;
   font-weight: 600;
@@ -223,13 +225,25 @@ label.auto {
   font-family: inherit;
 }
 
-.settings-body .hint {
+.settings-body .hint,
+.export-body .hint {
   font-size: 0.85rem;
   color: var(--muted);
   margin: 0;
 }
 
 .settings-body .hint a { color: var(--accent); }
+
+.export-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.export-body .hint { width: 100%; }
+
+.export-body button { font-size: 0.9rem; padding: 0.45rem 0.8rem; }
 
 #change-body { margin-top: 0.75rem; }
 
@@ -337,3 +351,37 @@ footer {
 }
 
 footer a { color: var(--accent); }
+
+/* ---------- Print: only the book page ---------- */
+@page { margin: 1.8cm; }
+
+@media print {
+  body { background: #fff; color: #000; }
+  header,
+  footer,
+  .editor,
+  .input-head,
+  .actions,
+  .settings,
+  .export,
+  .changes,
+  .status { display: none !important; }
+  main {
+    display: block;
+    padding: 0;
+    max-width: none;
+  }
+  .book { display: block; }
+  .page {
+    background: #fff;
+    background-image: none;
+    box-shadow: none;
+    max-width: none;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+  }
+  .page::before { display: none; }
+  .page p:first-of-type:not(.placeholder)::first-letter { color: #444; }
+}
