@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transcript – Deutsches Textkorrektur-Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Transcript</h1>
+    <p class="subtitle">Deutscher Text · Rechtschreibung &amp; Satzstellung · Buchdesign</p>
+  </header>
+  <main>
+    <section class="editor">
+      <label for="input">Dein Text</label>
+      <textarea id="input" placeholder="Schreibe oder füge deinen deutschen Text hier ein …"></textarea>
+      <div class="actions">
+        <button id="correct" type="button">Korrigieren</button>
+        <button id="clear" type="button" class="ghost">Leeren</button>
+        <span id="status" class="status" role="status"></span>
+      </div>
+      <details class="changes" id="changes" hidden>
+        <summary>Vorgenommene Korrekturen (<span id="change-count">0</span>)</summary>
+        <ol id="change-list"></ol>
+      </details>
+    </section>
+    <section class="book" aria-label="Buchvorschau">
+      <article class="page" id="page">
+        <p class="placeholder">Hier erscheint dein korrigierter Text im Buchdesign.</p>
+      </article>
+    </section>
+  </main>
+  <footer>
+    <p>Korrektur via <a href="https://languagetool.org" target="_blank" rel="noopener">LanguageTool</a> · Sprache: Deutsch (de-DE)</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
