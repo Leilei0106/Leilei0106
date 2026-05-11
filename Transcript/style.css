@@ -175,12 +175,14 @@ label.auto {
 
 .status {
   margin: 0.5rem 0 0;
-  color: var(--muted);
+  color: var(--record-active);
   font-size: 0.9rem;
-  min-height: 1.2em;
+  font-weight: 600;
+  min-height: 0;
 }
 
-.status .interim { font-style: italic; color: #5a6e8a; }
+.status[hidden] { display: none; }
+.status .interim { font-style: italic; color: #5a6e8a; font-weight: normal; }
 
 .settings,
 .export,
@@ -215,7 +217,8 @@ label.auto {
 .settings-body .field small { color: var(--muted); font-weight: normal; }
 
 .settings-body select,
-.settings-body input[type="password"] {
+.settings-body input[type="password"],
+.settings-body input[type="text"] {
   padding: 0.5rem 0.6rem;
   border: 1px solid #c8bfa6;
   border-radius: 4px;
@@ -225,6 +228,16 @@ label.auto {
   font-family: inherit;
 }
 
+.engine-block {
+  display: none;
+  padding-top: 0.4rem;
+  border-top: 1px dashed #d8cfb5;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.engine-block[hidden] { display: none; }
+
 .settings-body .hint,
 .export-body .hint {
   font-size: 0.85rem;
@@ -232,7 +245,10 @@ label.auto {
   margin: 0;
 }
 
-.settings-body .hint a { color: var(--accent); }
+.settings-body .hint a,
+.settings-body .hint code,
+.export-body .hint a { color: var(--accent); }
+.settings-body .hint code { background: rgba(138, 109, 59, 0.08); padding: 0 0.3em; border-radius: 3px; font-size: 0.95em; }
 
 .export-body {
   display: flex;
@@ -352,6 +368,33 @@ footer {
 
 footer a { color: var(--accent); }
 
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: #2b2722;
+  color: #fdfaf2;
+  padding: 0.7rem 1.1rem;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  font-size: 0.9rem;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+  max-width: 360px;
+  line-height: 1.4;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.error { background: #8a2a1d; }
+.toast.busy { background: #5a4b2a; }
+
+@media (max-width: 500px) {
+  .toast { right: 0.75rem; left: 0.75rem; bottom: 0.75rem; max-width: none; }
+}
+
 /* ---------- Print: only the book page ---------- */
 @page { margin: 1.8cm; }
 
@@ -365,7 +408,8 @@ footer a { color: var(--accent); }
   .settings,
   .export,
   .changes,
-  .status { display: none !important; }
+  .status,
+  .toast { display: none !important; }
   main {
     display: block;
     padding: 0;

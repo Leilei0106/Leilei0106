@@ -1,4 +1,4 @@
-const CACHE = 'transcript-v4';
+const CACHE = 'transcript-v5';
 const APP_SHELL = [
   './',
   './index.html',
@@ -30,7 +30,10 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
 
-  if (url.hostname === 'api.languagetool.org' || url.hostname === 'api.anthropic.com') return;
+  if (url.hostname === 'api.languagetool.org' ||
+      url.hostname === 'api.anthropic.com' ||
+      url.hostname === 'localhost' ||
+      url.hostname === '127.0.0.1') return;
 
   if (url.origin === self.location.origin) {
     event.respondWith(

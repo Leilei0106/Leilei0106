@@ -48,30 +48,50 @@
           Nach Aufnahme automatisch korrigieren
         </label>
       </div>
-      <p id="status" class="status" role="status" aria-live="polite"></p>
+      <p id="status" class="status" role="status" aria-live="polite" hidden></p>
       <details class="settings" id="settings">
         <summary>Einstellungen · Korrektur-Engine</summary>
         <div class="settings-body">
           <label class="field">
             <span>Korrektur-Engine</span>
             <select id="engine">
-              <option value="languagetool">LanguageTool (kein Schlüssel nötig)</option>
-              <option value="claude">Claude KI — voller Lektorat-Stil (empfohlen)</option>
+              <option value="languagetool">LanguageTool (online, kein Schlüssel nötig)</option>
+              <option value="claude">Claude KI (Anthropic Cloud)</option>
+              <option value="local">Lokales LLM (LM Studio / Ollama — OpenAI-kompatibel)</option>
             </select>
           </label>
-          <label class="field">
-            <span>Anthropic API-Schlüssel <small>(nur für Claude)</small></span>
-            <input type="password" id="api-key" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
-          </label>
-          <label class="field">
-            <span>Claude-Modell</span>
-            <select id="model">
-              <option value="claude-opus-4-7">Opus 4.7 — höchste Qualität (empfohlen)</option>
-              <option value="claude-sonnet-4-6">Sonnet 4.6 — ausgewogen</option>
-              <option value="claude-haiku-4-5-20251001">Haiku 4.5 — schnell &amp; günstig</option>
-            </select>
-          </label>
-          <p class="hint">Der Schlüssel wird nur in deinem Browser gespeichert (localStorage) und direkt an Anthropic gesendet. Schlüssel erstellen: <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>.</p>
+
+          <div class="engine-block" data-engine="claude">
+            <label class="field">
+              <span>Anthropic API-Schlüssel</span>
+              <input type="password" id="api-key" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
+            </label>
+            <label class="field">
+              <span>Claude-Modell</span>
+              <select id="model">
+                <option value="claude-opus-4-7">Opus 4.7 — höchste Qualität</option>
+                <option value="claude-sonnet-4-6">Sonnet 4.6 — ausgewogen</option>
+                <option value="claude-haiku-4-5-20251001">Haiku 4.5 — schnell &amp; günstig</option>
+              </select>
+            </label>
+            <p class="hint">Schlüssel wird nur im Browser gespeichert. Erstellen unter <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>.</p>
+          </div>
+
+          <div class="engine-block" data-engine="local">
+            <label class="field">
+              <span>Server-URL</span>
+              <input type="text" id="local-url" placeholder="http://localhost:1234/v1" autocomplete="off" spellcheck="false">
+            </label>
+            <label class="field">
+              <span>Modell-Name (wie im LM Studio Server geladen)</span>
+              <input type="text" id="local-model" placeholder="z. B. qwen3-14b oder llama-3.1-8b-instruct" autocomplete="off" spellcheck="false">
+            </label>
+            <label class="field">
+              <span>API-Schlüssel <small>(optional, leer lassen für LM Studio)</small></span>
+              <input type="password" id="local-key" placeholder="leer lassen" autocomplete="off" spellcheck="false">
+            </label>
+            <p class="hint"><strong>LM Studio:</strong> Modell laden → Tab „Server“ → „Start Server“ → in den <em>Server-Einstellungen</em> die Option <strong>CORS</strong> aktivieren, sonst blockt der Browser die Anfrage. Standard-URL: <code>http://localhost:1234/v1</code>. Ollama: <code>http://localhost:11434/v1</code>.</p>
+          </div>
         </div>
       </details>
       <details class="export" id="export">
@@ -82,7 +102,7 @@
           <button id="exp-md" type="button" class="ghost">Als .md (Markdown)</button>
           <button id="exp-html" type="button" class="ghost">Als HTML (Buchseite)</button>
           <button id="exp-pdf" type="button" class="ghost">Als PDF drucken / speichern</button>
-          <p class="hint">PDF öffnet den Druckdialog des Browsers — dort „Als PDF speichern“ wählen. Nur die Buchseite wird gedruckt.</p>
+          <p class="hint">PDF öffnet den Druckdialog — dort „Als PDF speichern“ wählen. Nur die Buchseite wird gedruckt.</p>
         </div>
       </details>
       <details class="changes" id="changes" hidden>
@@ -97,8 +117,11 @@
     </section>
   </main>
   <footer>
-    <p>Diktat: Web Speech API · Korrektur: <a href="https://languagetool.org" target="_blank" rel="noopener">LanguageTool</a> oder <a href="https://www.anthropic.com" target="_blank" rel="noopener">Claude KI</a> · Sprache: Deutsch (de-DE)</p>
+    <p>Diktat: Web Speech API · Korrektur: LanguageTool, Claude oder lokales LLM · Sprache: Deutsch (de-DE)</p>
   </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
   <script src="script.js"></script>
 </body>
 </html>
