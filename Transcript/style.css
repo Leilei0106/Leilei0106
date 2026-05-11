@@ -5,7 +5,7 @@
   --muted: #7a6f5e;
   --shadow: rgba(0, 0, 0, 0.15);
   --record: #2a6e3a;
-  --record-active: #b14b3a;
+  --record-active: #d23a2b;
 }
 
 * { box-sizing: border-box; }
@@ -50,9 +50,34 @@ main {
 
 .editor { display: flex; flex-direction: column; }
 
+.input-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  gap: 0.75rem;
+  min-height: 1.5rem;
+}
+
 .editor label {
   font-weight: 600;
-  margin-bottom: 0.5rem;
+}
+
+.textarea-wrap {
+  position: relative;
+  border-radius: 6px;
+  padding: 2px;
+  transition: box-shadow 0.2s ease;
+}
+
+.textarea-wrap.recording {
+  box-shadow: 0 0 0 3px var(--record-active), 0 0 16px rgba(210, 58, 43, 0.35);
+  animation: glow 1.6s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 0 3px var(--record-active), 0 0 8px rgba(210, 58, 43, 0.25); }
+  50%      { box-shadow: 0 0 0 3px var(--record-active), 0 0 22px rgba(210, 58, 43, 0.55); }
 }
 
 textarea {
@@ -60,13 +85,57 @@ textarea {
   min-height: 320px;
   padding: 1rem;
   border: 1px solid #c8bfa6;
-  border-radius: 6px;
+  border-radius: 4px;
   background: #fdfaf2;
   font-family: "Georgia", serif;
   font-size: 1rem;
   line-height: 1.6;
   resize: vertical;
   color: var(--ink);
+  display: block;
+}
+
+.viz {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--record-active);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.viz-label::before {
+  content: "● ";
+  animation: blink 1s steps(2) infinite;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+.viz .bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 22px;
+}
+
+.viz .bars span {
+  width: 4px;
+  background: var(--record-active);
+  border-radius: 2px;
+  display: inline-block;
+  transform-origin: bottom center;
+  animation: bars 1.05s ease-in-out infinite;
+}
+
+.viz .bars span:nth-child(1) { height: 40%; animation-delay: 0.00s; }
+.viz .bars span:nth-child(2) { height: 70%; animation-delay: 0.15s; }
+.viz .bars span:nth-child(3) { height: 100%; animation-delay: 0.30s; }
+.viz .bars span:nth-child(4) { height: 70%; animation-delay: 0.45s; }
+.viz .bars span:nth-child(5) { height: 50%; animation-delay: 0.60s; }
+
+@keyframes bars {
+  0%, 100% { transform: scaleY(0.35); }
+  50%      { transform: scaleY(1); }
 }
 
 .actions {
@@ -107,7 +176,7 @@ button.record {
 
 button.record:hover { background: #225a30; }
 button.record.recording { background: var(--record-active); }
-button.record.recording:hover { background: #8e3a2b; }
+button.record.recording:hover { background: #a82e22; }
 
 button.record .dot {
   width: 0.6rem;

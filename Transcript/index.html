@@ -13,8 +13,16 @@
   </header>
   <main>
     <section class="editor">
-      <label for="input">Dein Text</label>
-      <textarea id="input" placeholder="Tippe hier oder drücke „Diktieren“, um per Mikrofon zu sprechen …"></textarea>
+      <div class="input-head">
+        <label for="input">Dein Text</label>
+        <div class="viz" id="viz" hidden aria-hidden="true">
+          <span class="viz-label">Ich höre zu</span>
+          <span class="bars"><span></span><span></span><span></span><span></span><span></span></span>
+        </div>
+      </div>
+      <div class="textarea-wrap" id="ta-wrap">
+        <textarea id="input" placeholder="Tippe hier oder drücke „Diktieren“, um per Mikrofon zu sprechen …"></textarea>
+      </div>
       <div class="actions">
         <button id="record" type="button" class="record">
           <span class="dot" aria-hidden="true"></span>

@@ -9,6 +9,8 @@ const page = document.getElementById('page');
 const changes = document.getElementById('changes');
 const changeList = document.getElementById('change-list');
 const changeCount = document.getElementById('change-count');
+const viz = document.getElementById('viz');
+const taWrap = document.getElementById('ta-wrap');
 
 const API = 'https://api.languagetool.org/v2/check';
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -21,6 +23,13 @@ function escapeHtml(s) {
   return s.replace(/[&<>"']/g, (c) => (
     { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
   ));
+}
+
+function setRecordingUi(on) {
+  recordBtn.classList.toggle('recording', on);
+  taWrap.classList.toggle('recording', on);
+  viz.hidden = !on;
+  recordLabel.textContent = on ? 'Aufnahme stoppen' : 'Diktieren';
 }
 
 async function checkText(text) {
@@ -140,11 +149,9 @@ function setupRecognition() {
       baseText = (baseText + sep + finalChunk.trim()).replace(/\s+/g, ' ');
       input.value = baseText;
     }
-    if (interim) {
-      statusEl.innerHTML = `Aufnahme läuft … <span class="interim">${escapeHtml(interim)}</span>`;
-    } else {
-      statusEl.textContent = 'Aufnahme läuft …';
-    }
+    statusEl.innerHTML = interim
+      ? `<span class="interim">${escapeHtml(interim)}</span>`
+      : 'Ich höre zu …';
   };
 
   r.onerror = (e) => {
@@ -172,9 +179,8 @@ function startRecording() {
   recognition = setupRecognition();
   baseText = input.value;
   recording = true;
-  recordBtn.classList.add('recording');
-  recordLabel.textContent = 'Aufnahme stoppen';
-  statusEl.textContent = 'Aufnahme läuft …';
+  setRecordingUi(true);
+  statusEl.textContent = 'Ich höre zu …';
   try {
     recognition.start();
   } catch (e) {
@@ -190,8 +196,7 @@ function stopRecording() {
     try { recognition.stop(); } catch (_) {}
     recognition = null;
   }
-  recordBtn.classList.remove('recording');
-  recordLabel.textContent = 'Diktieren';
+  setRecordingUi(false);
   if (wasRecording) {
     statusEl.textContent = 'Aufnahme beendet.';
     if (autoCorrect.checked && input.value.trim()) {
