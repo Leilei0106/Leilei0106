@@ -3,23 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transcript – Deutsches Textkorrektur-Tool</title>
+  <title>Transcript – Diktieren &amp; Korrigieren</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
     <h1>Transcript</h1>
-    <p class="subtitle">Deutscher Text · Rechtschreibung &amp; Satzstellung · Buchdesign</p>
+    <p class="subtitle">Diktieren · Rechtschreibung &amp; Satzstellung · Buchdesign</p>
   </header>
   <main>
     <section class="editor">
       <label for="input">Dein Text</label>
-      <textarea id="input" placeholder="Schreibe oder füge deinen deutschen Text hier ein …"></textarea>
+      <textarea id="input" placeholder="Tippe hier oder drücke „Diktieren“, um per Mikrofon zu sprechen …"></textarea>
       <div class="actions">
+        <button id="record" type="button" class="record">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="label">Diktieren</span>
+        </button>
         <button id="correct" type="button">Korrigieren</button>
         <button id="clear" type="button" class="ghost">Leeren</button>
-        <span id="status" class="status" role="status"></span>
+        <label class="auto">
+          <input type="checkbox" id="auto-correct" checked>
+          Nach Aufnahme automatisch korrigieren
+        </label>
       </div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
       <details class="changes" id="changes" hidden>
         <summary>Vorgenommene Korrekturen (<span id="change-count">0</span>)</summary>
         <ol id="change-list"></ol>
@@ -32,7 +40,7 @@
     </section>
   </main>
   <footer>
-    <p>Korrektur via <a href="https://languagetool.org" target="_blank" rel="noopener">LanguageTool</a> · Sprache: Deutsch (de-DE)</p>
+    <p>Diktat via Web Speech API · Korrektur via <a href="https://languagetool.org" target="_blank" rel="noopener">LanguageTool</a> · Sprache: Deutsch (de-DE)</p>
   </footer>
   <script src="script.js"></script>
 </body>

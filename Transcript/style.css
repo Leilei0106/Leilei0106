@@ -4,6 +4,8 @@
   --accent: #8a6d3b;
   --muted: #7a6f5e;
   --shadow: rgba(0, 0, 0, 0.15);
+  --record: #2a6e3a;
+  --record-active: #b14b3a;
 }
 
 * { box-sizing: border-box; }
@@ -86,7 +88,7 @@ button {
 }
 
 button:hover { background: #715a31; }
-button:disabled { opacity: 0.6; cursor: wait; }
+button:disabled { opacity: 0.6; cursor: not-allowed; }
 
 button.ghost {
   background: transparent;
@@ -96,9 +98,53 @@ button.ghost {
 
 button.ghost:hover { background: rgba(138, 109, 59, 0.08); }
 
+button.record {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--record);
+}
+
+button.record:hover { background: #225a30; }
+button.record.recording { background: var(--record-active); }
+button.record.recording:hover { background: #8e3a2b; }
+
+button.record .dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: #fff;
+  display: inline-block;
+}
+
+button.record.recording .dot {
+  animation: pulse 1s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(1.4); }
+}
+
+label.auto {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+
 .status {
+  margin: 0.5rem 0 0;
   color: var(--muted);
   font-size: 0.9rem;
+  min-height: 1.2em;
+}
+
+.status .interim {
+  font-style: italic;
+  color: #5a6e8a;
 }
 
 .changes {
