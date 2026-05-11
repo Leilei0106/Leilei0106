@@ -2,6 +2,8 @@
 
 Deutsches Textkorrektur-Tool mit Buchdesign. Du gibst Text ein, das Tool korrigiert Rechtschreibung und Grammatik automatisch und zeigt das Ergebnis im Stil einer Buchseite.
 
+**Live-Demo:** https://leilei0106.github.io/leilei0106/
+
 ## Features
 
 - Eingabe beliebiger deutscher Texte
