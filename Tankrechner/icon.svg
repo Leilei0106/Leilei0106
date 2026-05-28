@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a84ff"/>
+      <stop offset="1" stop-color="#0050c8"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <g fill="none" stroke="#ffffff" stroke-width="22" stroke-linecap="round" stroke-linejoin="round">
+    <!-- fuel pump body -->
+    <path d="M140 380V160c0-22 18-40 40-40h120c22 0 40 18 40 40v220"/>
+    <rect x="160" y="150" width="160" height="100" rx="10" fill="#ffffff" stroke="none"/>
+    <rect x="180" y="170" width="120" height="60" rx="6" fill="#0a84ff" stroke="none"/>
+    <!-- base -->
+    <path d="M120 380h220"/>
+    <!-- nozzle arm -->
+    <path d="M340 220h30c14 0 26 12 26 26v80c0 14 12 26 26 26h0"/>
+    <!-- drop -->
+    <path d="M422 358c0 14-10 24-22 24s-22-10-22-24c0-20 22-44 22-44s22 24 22 44z" fill="#ffffff" stroke="none"/>
+  </g>
+</svg>
