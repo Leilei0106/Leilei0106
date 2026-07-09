@@ -2,7 +2,9 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["claude/create-github-project-VPqII"]
+    branches:
+      - "claude/create-github-project-VPqII"
+      - "claude/car-fuel-calculator-app-iyjIW"
   workflow_dispatch:
 
 permissions:
@@ -25,10 +27,15 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Build site (landing page + apps/)
+        run: |
+          mkdir -p _site
+          cp index.html _site/index.html
+          cp -R apps _site/apps
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./Transcript
+          path: ./_site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
